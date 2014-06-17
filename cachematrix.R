@@ -3,27 +3,32 @@
 ##  if not to caluculate it.
 
 ## This first function computes the inverse of a square matrix x and caches it
-    "matrix" returned by `makeCacheMatrix`
+    
 makeCacheMatrix <- function(x = matrix()) {
-    m<-matrix()
-    set<-function(y){
+  m<-matrix()
+  set<-function(y){
     x<<-y
     m<<-matrix()
   }
   
   get<-function() x
   setinv<-function(solve) m<<-solve
-  getinv<-function() m
+  getinv<-function()m
   list(set = set, get = get, setinv = setinv, getinv = getinv)
-
 }
 
 
-## Return a matrix that is the inverse of x
+## Return a matrix that is the inverse of 'x'
 
 cacheSolve <- function(x, ...) {
-     m <- x$getinv()
+     
+    m <- x$getinv()
     if(!is.null(m)) {
       message("getting cached data")
       return(m)
- }
+    }
+    data <- x$get()
+    m <- solve(data, ...)
+    x$setinv(m)
+    m
+}
