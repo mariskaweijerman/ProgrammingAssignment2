@@ -5,30 +5,31 @@
 ## This first function computes the inverse of a square matrix x and caches it
     
 makeCacheMatrix <- function(x = matrix()) {
-  m<-matrix()
-  set<-function(y){
-    x<<-y
-    m<<-matrix()
-  }
-  
-  get<-function() x
-  setinv<-function(solve) m<<-solve
-  getinv<-function() m
-  list(set = set, get = get, setinv = setinv, getinv = getinv)
+iv<-NULL
+set<-function(y){
+  x<<-y
+  iv<<-NULL
+}
+
+get<-function() x
+
+setinv<-function(solve) iv<<-solve
+getinv<-function() iv
+list(set = set, get = get, setinv = setinv, getinv = getinv)
 }
 
 
 ## Return a matrix that is the inverse of 'x'
 
 cacheSolve <- function(x, ...) {
-     
-    m <- x$getinv()
-    if(!is.null(m)) {
-      message("getting cached data")
-      return(m)
-    }
-    data <- x$get()
-    m <- solve(data, ...)
-    x$setinv(m)
-    m
+  
+  iv <- x$getinv()
+  if(!is.null(iv)) {
+    message("getting cached data")
+    return(iv)
+  }
+  data <- x$get()
+  iv <- solve(data, ...)
+  x$setinv(iv)
+  iv
 }
